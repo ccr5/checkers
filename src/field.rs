@@ -1,7 +1,7 @@
 pub mod field {
     use crate::player::player::Player;
 
-    pub fn create_field(player_one: Player, player_two: Player) -> [[String; 8]; 8] {
+    pub fn create_field(player_one: &Player, player_two: &Player) -> [[String; 8]; 8] {
         let field: [[String; 8]; 8] = [
             [
                 ".....".to_string(),
@@ -89,8 +89,19 @@ pub mod field {
     }
 
     pub fn show_field(field: [[String; 8]; 8]) {
-        for row in field {
-            println!("{:?}", row);
+        let cols: [String; 8] = [
+            "A".to_string(),
+            "B".to_string(),
+            "C".to_string(),
+            "D".to_string(),
+            "E".to_string(),
+            "F".to_string(),
+            "G".to_string(),
+            "H".to_string(),
+        ];
+        println!("        1        2        3        4        5        6        7        8     ");
+        for index in 0..field.len() {
+            println!("{} - {:?}", cols[index], field[index]);
         }
     }
 }
