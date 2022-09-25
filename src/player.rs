@@ -3,27 +3,33 @@ pub mod player {
 
     #[derive(Debug)]
     pub struct Player {
-        name: String,
-        age: i8,
+        pub name: String,
+        pub piece_type: String,
+        pub matchs: i8,
+        pub victories: i8,
     }
 
     pub fn create_player() -> Player {
         let mut name: String = String::new();
-        println!("Digite um nome: ");
-        io::stdin().read_line(&mut name).expect("Erro");
+        println!("Insert your name: ");
+        io::stdin()
+            .read_line(&mut name)
+            .expect("Error: We couldn't what you typed");
 
-        let mut age: String = String::new();
-        println!("Digite sua idade: ");
-        io::stdin().read_line(&mut age).expect("Deu ruim");
+        let mut piece_type: String = String::new();
+        println!("What is your piece type: ");
+        io::stdin()
+            .read_line(&mut piece_type)
+            .expect("Error: We couldn't what you typed");
 
         name.pop();
-        age.pop();
+        piece_type.pop();
 
-        let player: Player = Player {
+        return Player {
             name: name,
-            age: age.parse().expect("Não foi possível converter"),
+            piece_type: piece_type,
+            matchs: 0,
+            victories: 0,
         };
-
-        return player;
     }
 }
