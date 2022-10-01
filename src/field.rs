@@ -1,6 +1,14 @@
 pub mod field {
 
     use crate::player::player::Player;
+    use std::io;
+    use std::str;
+
+    #[derive(Debug)]
+    pub struct Position {
+        pub column: usize,
+        pub row: String,
+    }
 
     pub fn create_field(player_one: &Player, player_two: &Player) -> [[String; 8]; 8] {
         let field: [[String; 8]; 8] = [
@@ -104,6 +112,34 @@ pub mod field {
         for index in 0..field.len() {
             println!("{} - {:?}", cols[index], field[index]);
         }
+    }
+
+    pub fn get_position() -> Position {
+        let mut position_text: String = String::new();
+        let position: Position = match io::stdin().read_line(&mut position_text) {
+            Ok(_) => {
+                let position_row: char = position_text
+                    .chars()
+                    .nth(0)
+                    .expect("Cannot get the column value");
+
+                let position_column: char = position_text
+                    .chars()
+                    .nth(1)
+                    .expect("Cannot get the row value");
+
+                Position {
+                    column: position_column
+                        .to_string()
+                        .parse()
+                        .expect("Cannot parse the value"),
+                    row: position_row.to_string(),
+                }
+            }
+            Err(_) => panic!(),
+        };
+
+        return position;
     }
 
     pub fn convert_row_index(col: &str) -> usize {
