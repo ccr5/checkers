@@ -3,7 +3,6 @@ mod player;
 
 use crate::field::field::*;
 use crate::player::player::{create_player, Player};
-use std::io;
 
 fn main() {
     println!("Welcome Ferris!");
@@ -52,13 +51,14 @@ fn main() {
             field[position_row_number][new_position.column - 1],
         );
 
-        // println!("{}", next_player);
-
-        // if field[piece_row_number][piece_col_number - 1] == ".....".to_string() {
-        //     println!("Move");
-        // } else if field[piece_row_number][piece_col_number - 1] == next_player.to_string() {
-        //     println!("Eat");
-        // }
+        action(
+            &field,
+            piece_row_number,
+            position_row_number,
+            &position,
+            &new_position,
+            &current_player,
+        );
 
         rounds += 1;
         break;

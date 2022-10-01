@@ -156,4 +156,27 @@ pub mod field {
 
         return cols.iter().position(|x| x == col).unwrap();
     }
+
+    pub fn action(
+        mut field: &[[String; 8]; 8],
+        position_row_number: usize,
+        new_position_row_number: usize,
+        position: &Position,
+        new_position: &Position,
+        current_player: &Player,
+    ) {
+        let position_value: String = field[position_row_number][position.column - 1].clone();
+        let new_position_value: String =
+            field[new_position_row_number][new_position.column - 1].clone();
+
+        if current_player.piece_type != position_value {
+            panic!("Cannot change a position");
+        }
+
+        if new_position_value == ".....".to_string() {
+            println!("Move");
+        } else if new_position_value != current_player.piece_type {
+            println!("Eat");
+        }
+    }
 }
