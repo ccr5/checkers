@@ -1,6 +1,6 @@
 pub mod field {
 
-    use crate::player::player::Player;
+    use checkers::Player;
     use std::io;
     use std::str;
 

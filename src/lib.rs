@@ -1,15 +1,15 @@
-pub mod player {
-    use std::io;
+use std::io;
 
-    #[derive(Debug)]
-    pub struct Player {
-        pub name: String,
-        pub piece_type: String,
-        pub matchs: i8,
-        pub victories: i8,
-    }
+#[derive(Debug)]
+pub struct Player {
+    pub name: String,
+    pub piece_type: String,
+    pub matchs: i8,
+    pub victories: i8,
+}
 
-    pub fn create_player() -> Player {
+impl Player {
+    pub fn new() -> Player {
         let mut name: String = String::new();
         println!("Insert your name: ");
         io::stdin()
@@ -25,11 +25,11 @@ pub mod player {
         name.pop();
         piece_type.pop();
 
-        return Player {
+        Player {
             name: name,
             piece_type: piece_type,
             matchs: 0,
             victories: 0,
-        };
+        }
     }
 }
