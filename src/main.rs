@@ -1,7 +1,7 @@
 mod field;
 
-use crate::field::field::*;
-use checkers::Player;
+use crate::field::*;
+use checkers::{Field, Player};
 
 fn main() {
     println!("Welcome Ferris!");
@@ -15,7 +15,7 @@ fn main() {
     println!("--- Player 2 ---");
     let player_two: Player = Player::new();
 
-    let field: [[String; 8]; 8] = create_field(&player_one, &player_two);
+    let field: Field = Field::new(&player_one, &player_two);
     let mut current_player: &Player = &player_one;
     let mut rounds: usize = 0;
 

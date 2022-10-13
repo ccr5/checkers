@@ -33,3 +33,97 @@ impl Player {
         }
     }
 }
+
+#[derive(Debug)]
+pub struct Field {
+    field: [[String; 8]; 8],
+}
+
+impl Field {
+    pub fn new(player_one: &Player, player_two: &Player) -> Field {
+        let field: [[String; 8]; 8] = [
+            [
+                ".....".to_string(),
+                player_one.piece_type.clone(),
+                ".....".to_string(),
+                player_one.piece_type.clone(),
+                ".....".to_string(),
+                player_one.piece_type.clone(),
+                ".....".to_string(),
+                player_one.piece_type.clone(),
+            ],
+            [
+                player_one.piece_type.clone(),
+                ".....".to_string(),
+                player_one.piece_type.clone(),
+                ".....".to_string(),
+                player_one.piece_type.clone(),
+                ".....".to_string(),
+                player_one.piece_type.clone(),
+                ".....".to_string(),
+            ],
+            [
+                ".....".to_string(),
+                player_one.piece_type.clone(),
+                ".....".to_string(),
+                player_one.piece_type.clone(),
+                ".....".to_string(),
+                player_one.piece_type.clone(),
+                ".....".to_string(),
+                player_one.piece_type.clone(),
+            ],
+            [
+                ".....".to_string(),
+                ".....".to_string(),
+                ".....".to_string(),
+                ".....".to_string(),
+                ".....".to_string(),
+                ".....".to_string(),
+                ".....".to_string(),
+                ".....".to_string(),
+            ],
+            [
+                ".....".to_string(),
+                ".....".to_string(),
+                ".....".to_string(),
+                ".....".to_string(),
+                ".....".to_string(),
+                ".....".to_string(),
+                ".....".to_string(),
+                ".....".to_string(),
+            ],
+            [
+                player_two.piece_type.clone(),
+                ".....".to_string(),
+                player_two.piece_type.clone(),
+                ".....".to_string(),
+                player_two.piece_type.clone(),
+                ".....".to_string(),
+                player_two.piece_type.clone(),
+                ".....".to_string(),
+            ],
+            [
+                ".....".to_string(),
+                player_two.piece_type.clone(),
+                ".....".to_string(),
+                player_two.piece_type.clone(),
+                ".....".to_string(),
+                player_two.piece_type.clone(),
+                ".....".to_string(),
+                player_two.piece_type.clone(),
+            ],
+            [
+                player_two.piece_type.clone(),
+                ".....".to_string(),
+                player_two.piece_type.clone(),
+                ".....".to_string(),
+                player_two.piece_type.clone(),
+                ".....".to_string(),
+                player_two.piece_type.clone(),
+                ".....".to_string(),
+            ],
+        ];
+
+        Field { field }
+    }
+}
