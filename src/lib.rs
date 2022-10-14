@@ -1,129 +1,68 @@
-use std::io;
+mod field;
+mod player;
+mod position;
 
-#[derive(Debug)]
-pub struct Player {
-    pub name: String,
-    pub piece_type: String,
-    pub matchs: i8,
-    pub victories: i8,
-}
+use crate::{field::Field, player::Player, position::Position};
 
-impl Player {
-    pub fn new() -> Player {
-        let mut name: String = String::new();
-        println!("Insert your name: ");
-        io::stdin()
-            .read_line(&mut name)
-            .expect("Error: We couldn't what you typed");
+fn action(
+    field: &Field,
+    position_row_number: usize,
+    new_position_row_number: usize,
+    position: &Position,
+    new_position: &Position,
+    current_player: &Player,
+) {
+    let position_value: String = field.field[position_row_number][position.column - 1].clone();
+    let new_position_value: String =
+        field.field[new_position_row_number][new_position.column - 1].clone();
 
-        let mut piece_type: String = String::new();
-        println!("What is your piece type: ");
-        io::stdin()
-            .read_line(&mut piece_type)
-            .expect("Error: We couldn't what you typed");
+    if current_player.piece_type != position_value {
+        panic!("Cannot change a position");
+    }
 
-        name.pop();
-        piece_type.pop();
-
-        Player {
-            name: name,
-            piece_type: piece_type,
-            matchs: 0,
-            victories: 0,
-        }
+    if new_position_value == ".....".to_string() {
+        println!("Move");
+    } else if new_position_value != current_player.piece_type {
+        println!("Eat");
     }
 }
 
-#[derive(Debug)]
-pub struct Field {
-    field: [[String; 8]; 8],
-}
+pub fn run(player_one: Player, player_two: Player, field: Field) {
+    let mut current_player: &Player = &player_one;
+    let mut rounds: usize = 0;
 
-impl Field {
-    pub fn new(player_one: &Player, player_two: &Player) -> Field {
-        let field: [[String; 8]; 8] = [
-            [
-                ".....".to_string(),
-                player_one.piece_type.clone(),
-                ".....".to_string(),
-                player_one.piece_type.clone(),
-                ".....".to_string(),
-                player_one.piece_type.clone(),
-                ".....".to_string(),
-                player_one.piece_type.clone(),
-            ],
-            [
-                player_one.piece_type.clone(),
-                ".....".to_string(),
-                player_one.piece_type.clone(),
-                ".....".to_string(),
-                player_one.piece_type.clone(),
-                ".....".to_string(),
-                player_one.piece_type.clone(),
-                ".....".to_string(),
-            ],
-            [
-                ".....".to_string(),
-                player_one.piece_type.clone(),
-                ".....".to_string(),
-                player_one.piece_type.clone(),
-                ".....".to_string(),
-                player_one.piece_type.clone(),
-                ".....".to_string(),
-                player_one.piece_type.clone(),
-            ],
-            [
-                ".....".to_string(),
-                ".....".to_string(),
-                ".....".to_string(),
-                ".....".to_string(),
-                ".....".to_string(),
-                ".....".to_string(),
-                ".....".to_string(),
-                ".....".to_string(),
-            ],
-            [
-                ".....".to_string(),
-                ".....".to_string(),
-                ".....".to_string(),
-                ".....".to_string(),
-                ".....".to_string(),
-                ".....".to_string(),
-                ".....".to_string(),
-                ".....".to_string(),
-            ],
-            [
-                player_two.piece_type.clone(),
-                ".....".to_string(),
-                player_two.piece_type.clone(),
-                ".....".to_string(),
-                player_two.piece_type.clone(),
-                ".....".to_string(),
-                player_two.piece_type.clone(),
-                ".....".to_string(),
-            ],
-            [
-                ".....".to_string(),
-                player_two.piece_type.clone(),
-                ".....".to_string(),
-                player_two.piece_type.clone(),
-                ".....".to_string(),
-                player_two.piece_type.clone(),
-                ".....".to_string(),
-                player_two.piece_type.clone(),
-            ],
-            [
-                player_two.piece_type.clone(),
-                ".....".to_string(),
-                player_two.piece_type.clone(),
-                ".....".to_string(),
-                player_two.piece_type.clone(),
-                ".....".to_string(),
-                player_two.piece_type.clone(),
-                ".....".to_string(),
-            ],
-        ];
+    loop {
+        println!("\nOkay! This is the checkers states:");
+        field.show();
 
-        Field { field }
+        if rounds == 0 {
+            println!("The first player to begin is {}", player_one.name);
+        } else {
+            if rounds % 2 == 0 {
+                current_player = &player_one;
+            } else {
+                current_player = &player_two;
+            }
+
+            println!("The next player to begin is {}", current_player.name);
+        }
+
+        println!("What piece do you want to move (Ex: C2)?");
+        let position: Position = Position::new();
+
+        println!("\nWhere do you wanna put? (Ex: C2)?");
+        let new_position: Position = Position::new();
+
+        let piece_row_number: usize = position.convert_row_index();
+        let position_row_number: usize = new_position.convert_row_index();
+
+        println!(
+            "\nGet {} and move to {}",
+            field.field[piece_row_number][position.column - 1],
+            field.field[position_row_number][new_position.column - 1],
+        );
+
+        rounds += 1;
+        break;
     }
 }
