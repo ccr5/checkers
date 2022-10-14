@@ -109,6 +109,8 @@ impl Field {
             println!("{} - {:?}", cols[index], self.field[index]);
         }
     }
+
+    pub fn update(self) {}
 }
 
 #[cfg(test)]
