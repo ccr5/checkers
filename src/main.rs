@@ -1,9 +1,4 @@
-mod field;
-mod player;
-mod position;
-
-use crate::{field::Field, player::Player};
-use checkers::run;
+use checkers::{field::Field, player::Player, run};
 
 fn main() {
     println!("Welcome Ferris!");

@@ -1,6 +1,6 @@
-mod field;
-mod player;
-mod position;
+pub mod field;
+pub mod player;
+pub mod position;
 
 use crate::{field::Field, player::Player, position::Position};
 
