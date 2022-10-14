@@ -110,3 +110,111 @@ impl Field {
         }
     }
 }
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn test_new_field() {
+        let player_one: Player = Player {
+            name: "Matheus".to_string(),
+            piece_type: "White".to_string(),
+            matchs: 0,
+            victories: 0,
+        };
+
+        let player_two: Player = Player {
+            name: "Lucas".to_string(),
+            piece_type: "Black".to_string(),
+            matchs: 0,
+            victories: 0,
+        };
+
+        let field_value: [[String; 8]; 8] = [
+            [
+                ".....".to_string(),
+                "White".to_string(),
+                ".....".to_string(),
+                "White".to_string(),
+                ".....".to_string(),
+                "White".to_string(),
+                ".....".to_string(),
+                "White".to_string(),
+            ],
+            [
+                "White".to_string(),
+                ".....".to_string(),
+                "White".to_string(),
+                ".....".to_string(),
+                "White".to_string(),
+                ".....".to_string(),
+                "White".to_string(),
+                ".....".to_string(),
+            ],
+            [
+                ".....".to_string(),
+                "White".to_string(),
+                ".....".to_string(),
+                "White".to_string(),
+                ".....".to_string(),
+                "White".to_string(),
+                ".....".to_string(),
+                "White".to_string(),
+            ],
+            [
+                ".....".to_string(),
+                ".....".to_string(),
+                ".....".to_string(),
+                ".....".to_string(),
+                ".....".to_string(),
+                ".....".to_string(),
+                ".....".to_string(),
+                ".....".to_string(),
+            ],
+            [
+                ".....".to_string(),
+                ".....".to_string(),
+                ".....".to_string(),
+                ".....".to_string(),
+                ".....".to_string(),
+                ".....".to_string(),
+                ".....".to_string(),
+                ".....".to_string(),
+            ],
+            [
+                "Black".to_string(),
+                ".....".to_string(),
+                "Black".to_string(),
+                ".....".to_string(),
+                "Black".to_string(),
+                ".....".to_string(),
+                "Black".to_string(),
+                ".....".to_string(),
+            ],
+            [
+                ".....".to_string(),
+                "Black".to_string(),
+                ".....".to_string(),
+                "Black".to_string(),
+                ".....".to_string(),
+                "Black".to_string(),
+                ".....".to_string(),
+                "Black".to_string(),
+            ],
+            [
+                "Black".to_string(),
+                ".....".to_string(),
+                "Black".to_string(),
+                ".....".to_string(),
+                "Black".to_string(),
+                ".....".to_string(),
+                "Black".to_string(),
+                ".....".to_string(),
+            ],
+        ];
+
+        let field: Field = Field::new(&player_one, &player_two);
+        assert_eq!(field_value, field.field);
+    }
+}

@@ -9,7 +9,7 @@ pub struct Player {
 }
 
 impl Player {
-    pub fn new() -> Player {
+    pub fn new() -> Self {
         let mut name: String = String::new();
         println!("Insert your name: ");
         io::stdin()

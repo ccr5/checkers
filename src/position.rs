@@ -50,3 +50,19 @@ impl Position {
         cols.iter().position(|x| x == &self.row).unwrap()
     }
 }
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn test_convert_row_index() {
+        let position: Position = Position {
+            column: 2,
+            row: "C".to_string(),
+        };
+
+        let position_row_number: usize = position.convert_row_index();
+        assert_eq!(2, position_row_number);
+    }
+}
