@@ -56,35 +56,22 @@ impl Checkers {
             println!("\nWhere do you wanna put? (Ex: C2)?");
             let new_position: Position = Position::new();
 
-            let position_row_number: usize = position.convert_row_index();
-            let new_position_row_number: usize = new_position.convert_row_index();
-
-            println!(
-                "\nGet {} and move to {}",
-                self.field.field[position_row_number][position.column - 1],
-                self.field.field[new_position_row_number][new_position.column - 1],
-            );
-
-            self.action(
-                position_row_number,
-                new_position_row_number,
-                &position,
-                &new_position,
-                current_player,
-            );
+            self.action(&position, &new_position, &current_player);
 
             rounds += 1;
         }
     }
 
-    fn action(
-        &mut self,
-        position_row_number: usize,
-        new_position_row_number: usize,
-        position: &Position,
-        new_position: &Position,
-        current_player: &Player,
-    ) {
+    pub fn action(&self, position: &Position, new_position: &Position, current_player: &Player) {
+        let position_row_number: usize = position.convert_row_index();
+        let new_position_row_number: usize = new_position.convert_row_index();
+
+        println!(
+            "\nGet {} and move to {}",
+            self.field.field[position_row_number][position.column - 1],
+            self.field.field[new_position_row_number][new_position.column - 1],
+        );
+
         let position_value: &String = &self.field.field[position_row_number][position.column - 1];
         let new_position_value: &String =
             &self.field.field[new_position_row_number][new_position.column - 1];
@@ -94,9 +81,18 @@ impl Checkers {
         }
 
         if new_position_value.to_string() == ".....".to_string() {
-            self.field.field[position_row_number][position.column - 1] = ".....".to_string();
-            self.field.field[new_position_row_number][new_position.column - 1] =
-                current_player.piece_type.to_string();
+            self.field.update(
+                position_row_number,
+                position.column - 1,
+                ".....".to_string(),
+            );
+
+            self.field.update(
+                new_position_row_number,
+                new_position.column - 1,
+                current_player.piece_type.to_string(),
+            );
+
             println!("Move");
         } else if new_position_value.to_string() != current_player.piece_type {
             println!("Eat");

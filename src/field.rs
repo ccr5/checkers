@@ -1,6 +1,6 @@
 use crate::player::Player;
 
-#[derive(Debug)]
+#[derive(Debug, Clone, Copy)]
 pub struct Field {
     pub field: [[String; 8]; 8],
 }
@@ -110,7 +110,9 @@ impl Field {
         }
     }
 
-    pub fn update(self) {}
+    pub fn update(self, position_row_number: usize, position_column_number: usize, value: String) {
+        self.field[position_row_number][position_column_number - 1] = value;
+    }
 }
 
 #[cfg(test)]
