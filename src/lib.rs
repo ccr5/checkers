@@ -72,8 +72,8 @@ impl Checkers {
             self.field.field[new_position_row_number][new_position.column - 1],
         );
 
-        let position_value: &String = &self.field.field[position_row_number][position.column - 1];
-        let new_position_value: &String =
+        let position_value: &i8 = &self.field.field[position_row_number][position.column - 1];
+        let new_position_value: &i8 =
             &self.field.field[new_position_row_number][new_position.column - 1];
 
         if current_player.piece_type.to_string() != position_value.to_string() {
@@ -81,20 +81,17 @@ impl Checkers {
         }
 
         if new_position_value.to_string() == ".....".to_string() {
-            self.field.update(
-                position_row_number,
-                position.column - 1,
-                ".....".to_string(),
-            );
+            self.field
+                .update(position_row_number, position.column - 1, -1);
 
             self.field.update(
                 new_position_row_number,
                 new_position.column - 1,
-                current_player.piece_type.to_string(),
+                current_player.piece_type,
             );
 
             println!("Move");
-        } else if new_position_value.to_string() != current_player.piece_type {
+        } else if new_position_value != &current_player.piece_type {
             println!("Eat");
         }
     }

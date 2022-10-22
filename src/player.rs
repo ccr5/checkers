@@ -3,7 +3,7 @@ use std::io;
 #[derive(Debug)]
 pub struct Player {
     pub name: String,
-    pub piece_type: String,
+    pub piece_type: i8,
     pub matchs: i8,
     pub victories: i8,
 }
@@ -27,7 +27,7 @@ impl Player {
 
         Player {
             name: name,
-            piece_type: piece_type,
+            piece_type: piece_type.parse::<i8>().unwrap(),
             matchs: 0,
             victories: 0,
         }
