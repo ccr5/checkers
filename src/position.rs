@@ -16,16 +16,16 @@ impl Position {
                     .nth(0)
                     .expect("Cannot get the column value");
 
-                let position_column: char = position_text
+                let position_column: usize = position_text
                     .chars()
                     .nth(1)
-                    .expect("Cannot get the row value");
+                    .expect("Cannot get the row value")
+                    .to_string()
+                    .parse()
+                    .expect("Cannot parse the value");
 
                 Position {
-                    column: position_column
-                        .to_string()
-                        .parse()
-                        .expect("Cannot parse the value"),
+                    column: position_column - 1,
                     row: position_row.to_string(),
                 }
             }

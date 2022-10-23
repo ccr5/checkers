@@ -24,6 +24,14 @@ impl Field {
         Field { field }
     }
 
+    pub fn update(&mut self, position_row_number: usize, position_column_number: usize, value: i8) {
+        self.field[position_row_number][position_column_number] = value;
+    }
+
+    pub fn get(&self, row: usize, column: usize) -> i8 {
+        self.field[row][column]
+    }
+
     pub fn show(&self) {
         let cols: [String; 8] = [
             "A".to_string(),
@@ -35,14 +43,10 @@ impl Field {
             "G".to_string(),
             "H".to_string(),
         ];
-        println!("      1 2 3 4 5 6 7 8");
+        println!("      1   2   3   4   5   6   7   8");
         for index in 0..self.field.len() {
             println!("{} - {:?}", cols[index], self.field[index]);
         }
-    }
-
-    pub fn update(mut self, position_row_number: usize, position_column_number: usize, value: i8) {
-        self.field[position_row_number][position_column_number - 1] = value;
     }
 }
 
@@ -108,8 +112,29 @@ mod tests {
             [0, -1, 0, -1, 0, -1, 0, -1],
         ];
 
-        let field: Field = Field::new(&player_one, &player_two);
-        field.update(2, 1, 0);
+        let mut field: Field = Field::new(&player_one, &player_two);
+        field.update(1, 0, 0);
         assert_eq!(field_value, field.field);
+    }
+
+    #[test]
+    fn test_get() {
+        let player_one: Player = Player {
+            name: "Matheus".to_string(),
+            piece_type: 1,
+            matchs: 0,
+            victories: 0,
+        };
+
+        let player_two: Player = Player {
+            name: "Lucas".to_string(),
+            piece_type: 0,
+            matchs: 0,
+            victories: 0,
+        };
+
+        let field: Field = Field::new(&player_one, &player_two);
+        let position_value: i8 = field.get(1, 0);
+        assert_eq!(1, position_value);
     }
 }
