@@ -48,7 +48,13 @@ impl Checkers {
             println!("\nWhere do you wanna put? (Ex: C2)?");
             let new_position: Position = Position::new();
 
-            self.action(&position, &new_position, &current_player, field);
+            let mut result: bool = false;
+            while !result {
+                match self.action(&position, &new_position, &current_player, field) {
+                    Ok(()) => result = true,
+                    Err(err) => print!("{}", err),
+                }
+            }
 
             rounds += 1;
         }
@@ -60,7 +66,7 @@ impl Checkers {
         new_position: &Position,
         current_player: &Player,
         field: &mut Field,
-    ) {
+    ) -> Result<(), &str> {
         let position_row_number: usize = position.convert_row_index();
         let new_position_row_number: usize = new_position.convert_row_index();
 
@@ -74,7 +80,13 @@ impl Checkers {
         let new_position_value: &i8 = &field.get(new_position_row_number, new_position.column);
 
         if current_player.piece_type.to_string() != position_value.to_string() {
-            panic!("Cannot change a position");
+            return Err("Mismatch piece. Choose your piece.");
+        } else if new_position_row_number - position_row_number != 1
+            || position_row_number - new_position_row_number != 1
+            || new_position.column - position.column != 1
+            || position.column - new_position.column != 1
+        {
+            return Err("You ONLY can move in diagonal");
         }
 
         if new_position_value.to_string() == "-1" {
@@ -87,7 +99,15 @@ impl Checkers {
 
             println!("Move");
         } else if new_position_value != &current_player.piece_type {
+            field.update(position_row_number, position.column, -1);
+            field.update(
+                new_position_row_number,
+                new_position.column,
+                current_player.piece_type,
+            );
             println!("Eat");
         }
+
+        Ok(())
     }
 }
