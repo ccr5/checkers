@@ -1,4 +1,5 @@
 use crate::player::Player;
+use colored::Colorize;
 
 #[derive(Debug, Clone, Copy)]
 pub struct Field {
@@ -43,9 +44,10 @@ impl Field {
             "G".to_string(),
             "H".to_string(),
         ];
-        println!("      1   2   3   4   5   6   7   8");
+        let header: String = String::from("      1   2   3   4   5   6   7   8");
+        println!("{}", header.green());
         for index in 0..self.field.len() {
-            println!("{} - {:?}", cols[index], self.field[index]);
+            println!("{} - {:?}", cols[index].green(), self.field[index]);
         }
     }
 }
