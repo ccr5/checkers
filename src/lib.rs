@@ -4,6 +4,7 @@ pub mod position;
 
 use crate::{field::Field, player::Player, position::Position};
 use colored::Colorize;
+use std::error::Error;
 
 pub struct Checkers {}
 
@@ -25,11 +26,21 @@ impl Checkers {
         (player_one, player_two, field)
     }
 
-    pub fn run(&self, player_one: &mut Player, player_two: &mut Player, field: &mut Field) {
+    pub fn run(
+        &self,
+        player_one: &mut Player,
+        player_two: &mut Player,
+        field: &mut Field,
+    ) -> Result<(), Box<dyn Error>> {
         let mut current_player: &Player = &player_one;
         let mut rounds: usize = 0;
+        let mut winner: bool = false;
 
         loop {
+            if winner {
+                break;
+            }
+
             print!("\x1B[2J\x1B[1;1H");
             println!("\nOkay! This is the checkers states:");
             field.show();
@@ -46,16 +57,17 @@ impl Checkers {
                 println!("The next player to begin is {}", current_player.name.bold());
             }
 
-            let mut result: bool = false;
+            let mut action_result: bool = false;
 
-            while !result {
+            while !action_result {
                 println!("What piece do you want to move (Ex: C2)?");
                 let position: Position = Position::new();
 
                 println!("\nWhere do you wanna put? (Ex: C2)?");
                 let new_position: Position = Position::new();
 
-                result = match self.action(&position, &new_position, &current_player, field) {
+                action_result = match self.action(&position, &new_position, &current_player, field)
+                {
                     Ok(()) => true,
                     Err(err) => {
                         println!("{}", err);
@@ -67,6 +79,9 @@ impl Checkers {
 
             rounds += 1;
         }
+
+        println!("\nThe winner is: {}", winner);
+        Ok(())
     }
 
     pub fn action(
