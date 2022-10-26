@@ -39,6 +39,8 @@ impl Checkers {
             } else {
                 if rounds % 2 != 0 {
                     current_player = &player_two;
+                } else {
+                    current_player = &player_one;
                 }
 
                 println!("The next player to begin is {}", current_player.name.bold());
