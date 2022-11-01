@@ -138,4 +138,45 @@ impl Checkers {
 
         Ok(())
     }
+
+    pub fn validate() {}
+}
+
+#[cfg(test)]
+mod tests {
+    use crate::{position::Position, Checkers};
+
+    #[test]
+    fn test_action() {
+        let checkers: Checkers = Checkers {};
+        let (_, current_player, mut field) = Checkers::new();
+        let position: Position = Position {
+            column: 2,
+            row: "C".to_string(),
+        };
+        let new_position: Position = Position {
+            column: 3,
+            row: "D".to_string(),
+        };
+
+        let action_result =
+            match checkers.action(&position, &new_position, &current_player, &mut field) {
+                Ok(()) => true,
+                Err(err) => {
+                    println!("{}", err);
+                    println!("Please, play again");
+                    false
+                }
+            };
+
+        let position_result: i8 = field.get(2, 1);
+        let new_position_result: i8 = field.get(3, 2);
+
+        assert_eq!(true, action_result);
+        assert_eq!(1, position_result);
+        assert_eq!(-1, new_position_result);
+    }
+
+    // #[test]
+    // fn test_validate() {}
 }
