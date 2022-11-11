@@ -139,12 +139,32 @@ impl Checkers {
         Ok(())
     }
 
-    pub fn validate() {}
+    pub fn validate(
+        &self,
+        player_one: Player,
+        player_two: Player,
+        field: Field,
+    ) -> Result<i8, Box<dyn Error>> {
+        let mut has_player_one: bool = false;
+        let mut has_player_two: bool = false;
+
+        // Loop validando
+
+        if has_player_one && has_player_two {
+            Ok(-1)
+        } else if has_player_one && !has_player_two {
+            Ok(player_one.piece_type)
+        } else if !has_player_one && has_player_two {
+            Ok(player_two.piece_type)
+        } else {
+            panic!("Invalid condition")
+        }
+    }
 }
 
 #[cfg(test)]
 mod tests {
-    use crate::{position::Position, Checkers};
+    use crate::{field::Field, player::Player, position::Position, Checkers};
 
     #[test]
     fn test_action() {
@@ -177,6 +197,40 @@ mod tests {
         assert_eq!(-1, new_position_result);
     }
 
-    // #[test]
-    // fn test_validate() {}
+    #[test]
+    fn test_validate() {
+        let checkers: Checkers = Checkers {};
+        let player_one: Player = Player {
+            name: "Matheus".to_string(),
+            piece_type: 1,
+            matchs: 0,
+            victories: 0,
+        };
+
+        let player_two: Player = Player {
+            name: "Lucas".to_string(),
+            piece_type: 0,
+            matchs: 0,
+            victories: 0,
+        };
+
+        let field_test: [[i8; 8]; 8] = [
+            [-1, -1, -1, -1, -1, -1, -1, -1],
+            [-1, -1, -1, -1, -1, -1, -1, -1],
+            [-1, -1, -1, -1, -1, -1, -1, -1],
+            [-1, -1, -1, -1, -1, -1, -1, -1],
+            [-1, -1, -1, -1, -1, -1, -1, -1],
+            [-1, -1, -1, -1, -1, -1, -1, -1],
+            [-1, -1, -1, -1, -1, -1, -1, -1],
+            [-1, -1, -1, -1, -1, 0, -1, -1],
+        ];
+
+        let field: Field = Field { field: field_test };
+        let result: i8 = match checkers.validate(player_one, player_two, field) {
+            Ok(value) => value,
+            Err(_err) => panic!("Invalid condition"),
+        };
+
+        assert_eq!(result, 0);
+    }
 }
