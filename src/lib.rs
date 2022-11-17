@@ -77,6 +77,11 @@ impl Checkers {
                 };
             }
 
+            let validate_result = match self.validate(&player_one, &player_two, &field) {
+                Ok(value) => value,
+                Err(err) => err,
+            };
+
             rounds += 1;
         }
 
@@ -141,14 +146,22 @@ impl Checkers {
 
     pub fn validate(
         &self,
-        player_one: Player,
-        player_two: Player,
-        field: Field,
-    ) -> Result<i8, Box<dyn Error>> {
+        player_one: &Player,
+        player_two: &Player,
+        field: &Field,
+    ) -> Result<i8, i8> {
         let mut has_player_one: bool = false;
         let mut has_player_two: bool = false;
 
-        // Loop validando
+        for row in field.field {
+            for value in row {
+                if value == player_one.piece_type {
+                    has_player_one = true;
+                } else if value == player_two.piece_type {
+                    has_player_two = true;
+                }
+            }
+        }
 
         if has_player_one && has_player_two {
             Ok(-1)
@@ -157,7 +170,7 @@ impl Checkers {
         } else if !has_player_one && has_player_two {
             Ok(player_two.piece_type)
         } else {
-            panic!("Invalid condition")
+            Err(-1)
         }
     }
 }
@@ -182,19 +195,15 @@ mod tests {
         let action_result =
             match checkers.action(&position, &new_position, &current_player, &mut field) {
                 Ok(()) => true,
-                Err(err) => {
-                    println!("{}", err);
-                    println!("Please, play again");
-                    false
-                }
+                Err(_) => false,
             };
 
         let position_result: i8 = field.get(2, 1);
         let new_position_result: i8 = field.get(3, 2);
 
-        assert_eq!(true, action_result);
-        assert_eq!(1, position_result);
-        assert_eq!(-1, new_position_result);
+        assert_eq!(action_result, true);
+        assert_eq!(position_result, 1);
+        assert_eq!(new_position_result, -1);
     }
 
     #[test]
@@ -214,23 +223,62 @@ mod tests {
             victories: 0,
         };
 
-        let field_test: [[i8; 8]; 8] = [
-            [-1, -1, -1, -1, -1, -1, -1, -1],
-            [-1, -1, -1, -1, -1, -1, -1, -1],
-            [-1, -1, -1, -1, -1, -1, -1, -1],
-            [-1, -1, -1, -1, -1, -1, -1, -1],
-            [-1, -1, -1, -1, -1, -1, -1, -1],
-            [-1, -1, -1, -1, -1, -1, -1, -1],
-            [-1, -1, -1, -1, -1, -1, -1, -1],
-            [-1, -1, -1, -1, -1, 0, -1, -1],
-        ];
-
-        let field: Field = Field { field: field_test };
-        let result: i8 = match checkers.validate(player_one, player_two, field) {
-            Ok(value) => value,
-            Err(_err) => panic!("Invalid condition"),
+        let field_one: Field = Field {
+            field: [
+                [-1, -1, -1, -1, -1, -1, -1, -1],
+                [-1, -1, -1, -1, -1, -1, -1, -1],
+                [-1, -1, -1, -1, -1, -1, -1, -1],
+                [-1, -1, -1, -1, -1, -1, -1, -1],
+                [-1, -1, -1, -1, -1, -1, -1, -1],
+                [-1, -1, -1, -1, -1, -1, -1, -1],
+                [-1, -1, -1, -1, -1, -1, -1, -1],
+                [-1, -1, -1, -1, -1, 0, -1, -1],
+            ],
         };
 
-        assert_eq!(result, 0);
+        let field_two: Field = Field {
+            field: [
+                [-1, -1, -1, -1, -1, -1, -1, -1],
+                [-1, -1, -1, -1, -1, -1, -1, -1],
+                [-1, -1, -1, -1, -1, -1, -1, -1],
+                [-1, -1, -1, -1, -1, -1, -1, -1],
+                [-1, -1, -1, -1, -1, -1, -1, -1],
+                [-1, -1, -1, -1, -1, -1, -1, -1],
+                [-1, -1, -1, -1, -1, -1, -1, -1],
+                [-1, -1, -1, -1, -1, 1, -1, -1],
+            ],
+        };
+
+        let field_three: Field = Field {
+            field: [
+                [-1, -1, -1, -1, -1, -1, -1, -1],
+                [-1, 1, -1, -1, -1, -1, -1, -1],
+                [-1, -1, -1, -1, -1, -1, -1, -1],
+                [-1, -1, -1, -1, -1, -1, -1, -1],
+                [-1, -1, -1, -1, -1, -1, -1, -1],
+                [-1, -1, -1, -1, -1, -1, -1, -1],
+                [-1, -1, -1, -1, -1, -1, -1, -1],
+                [-1, -1, -1, -1, -1, 0, -1, -1],
+            ],
+        };
+
+        let result_one: i8 = match checkers.validate(&player_one, &player_two, &field_one) {
+            Ok(value) => value,
+            Err(_err) => _err,
+        };
+
+        let result_two: i8 = match checkers.validate(&player_one, &player_two, &field_two) {
+            Ok(value) => value,
+            Err(_err) => _err,
+        };
+
+        let result_three: i8 = match checkers.validate(&player_one, &player_two, &field_three) {
+            Ok(value) => value,
+            Err(_err) => _err,
+        };
+
+        assert_eq!(result_one, 0);
+        assert_eq!(result_two, 1);
+        assert_eq!(result_three, -1);
     }
 }
