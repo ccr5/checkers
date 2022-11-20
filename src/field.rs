@@ -114,15 +114,11 @@ mod tests {
         let player_one: Player = Player {
             name: "Matheus".to_string(),
             piece_type: 1,
-            matchs: 0,
-            victories: 0,
         };
 
         let player_two: Player = Player {
             name: "Lucas".to_string(),
             piece_type: 0,
-            matchs: 0,
-            victories: 0,
         };
 
         let field_value: [[i8; 8]; 8] = [
@@ -145,15 +141,11 @@ mod tests {
         let player_one: Player = Player {
             name: "Matheus".to_string(),
             piece_type: 1,
-            matchs: 0,
-            victories: 0,
         };
 
         let player_two: Player = Player {
             name: "Lucas".to_string(),
             piece_type: 0,
-            matchs: 0,
-            victories: 0,
         };
 
         let field_value: [[i8; 8]; 8] = [
@@ -177,15 +169,11 @@ mod tests {
         let player_one: Player = Player {
             name: "Matheus".to_string(),
             piece_type: 1,
-            matchs: 0,
-            victories: 0,
         };
 
         let player_two: Player = Player {
             name: "Lucas".to_string(),
             piece_type: 0,
-            matchs: 0,
-            victories: 0,
         };
 
         let field: Field = Field::new(&player_one, &player_two);
