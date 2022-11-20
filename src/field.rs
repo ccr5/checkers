@@ -3,7 +3,7 @@ use std::i8;
 use crate::player::Player;
 use colored::Colorize;
 
-#[derive(Debug, Clone, Copy)]
+#[derive(Debug, Clone, Copy, PartialEq)]
 pub struct Field {
     pub field: [[i8; 8]; 8],
 }

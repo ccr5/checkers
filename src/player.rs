@@ -1,6 +1,6 @@
 use std::io;
 
-#[derive(Debug, Clone)]
+#[derive(Debug, Clone, PartialEq)]
 pub struct Player {
     pub name: String,
     pub piece_type: i8,
